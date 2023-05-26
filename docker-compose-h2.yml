@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+ 
+  Keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:21.1.1
+    command: start-dev
+    working_dir: /opt/keycloak
+    ports:
+      - 8080:8080
+    environment:
+      - KEYCLOAK_ADMIN=Root
+      - KEYCLOAK_ADMIN_PASSWORD=sheep
+      - KC_HOSTNAME_STRICT=false
+      - KC_PROXY=edge
+      - KC_HOSTNAME=test@test.com

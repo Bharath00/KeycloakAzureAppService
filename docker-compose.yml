@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+
+  database:
+    container_name: mysqldb
+    restart: unless-stopped
+    image:  mysql:5.7
+    environment:
+        - MYSQL_DATABASE=Keycloakdb
+        - MYSQL_ROOT_PASSWORD=sheep
+        - MYSQL_USER=Bharath
+        - MYSQL_PASSWORD=abcd@3456
+  
+
+  Keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:21.1.1
+    command: start-dev
+    restart: unless-stopped
+    depends_on:
+      - database
+    working_dir: /opt/keycloak
+    ports:
+         - 8080:8080
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=mysql
+      - KC_DB_URL=jdbc:mysql://database:3306/Keycloakdb
+      - KC_DB_USERNAME=root
+      - KC_DB_PASSWORD=sheep
+      - KC_PROXY=edge
